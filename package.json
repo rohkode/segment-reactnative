@@ -10,9 +10,11 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-native/new-app-screen": "0.80.2",
+    "@segment/analytics-react-native": "^1.5.0",
+    "@segment/analytics-react-native-clevertap": "^1.5.3",
     "react": "19.1.0",
-    "react-native": "0.80.2",
-    "@react-native/new-app-screen": "0.80.2"
+    "react-native": "0.80.2"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",

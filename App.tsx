@@ -35,9 +35,9 @@ function App() {
         // Register CleverTap integration
         (analytics as any).use(CleverTapIntegration);
 
-        console.log('✅ Segment + CleverTap initialized successfully');
+        console.log('Segment + CleverTap initialized successfully');
       } catch (error) {
-        console.error('❌ Error initializing Segment:', error);
+        console.error('Error initializing Segment:', error);
       }
     };
 
@@ -50,13 +50,13 @@ function App() {
       return;
     }
     analytics.identify(identity, { name, email, phone });
-    console.log(`✅ Identify called for ${identity}`, { name, email, phone });
+    console.log(`Identify called for ${identity}`, { name, email, phone });
     Alert.alert('Success', 'User Identified!');
   };
 
   const handleTrackEvent = () => {
     analytics.track('Segment Product Viewed');
-    console.log('✅ Event: Segment Product Viewed');
+    console.log('Event: Segment Product Viewed');
     Alert.alert('Event', 'Segment Product Viewed event tracked');
   };
 
@@ -66,7 +66,7 @@ function App() {
       price: 499,
       currency: 'INR',
     });
-    console.log('✅ Event: Product Purchased with properties');
+    console.log('Event: Product Purchased with properties');
     Alert.alert('Event', 'Purchase event tracked with properties');
   };
 

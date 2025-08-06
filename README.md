@@ -1,97 +1,143 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Segment + CleverTap React Native Integration
 
-# Getting Started
+This project demonstrates how to integrate **Segment React Native SDK (v1)** with **CleverTap** as a destination. It includes:
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+* Segment SDK setup
+* CleverTap integration via Segment
+* Identify user functionality
+* Track custom events with and without properties
 
-## Step 1: Start Metro
+---
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## ✅ Features
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+* Segment initialization with CleverTap destination
+* User profile updates using `analytics.identify()`
+* Event tracking using `analytics.track()`
+* Sample UI with input fields for `name`, `identity`, `email`, and `phone`
 
-```sh
-# Using npm
-npm start
+---
 
-# OR using Yarn
-yarn start
+## 🚀 Getting Started
+
+### **1. Clone the Repository**
+
+```bash
+git clone https://github.com/rohkode/segment-reactnative.git
+cd segment-reactnative
 ```
 
-## Step 2: Build and run your app
+### **2. Install Dependencies**
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
-
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
+```bash
+npm install
 ```
 
-### iOS
+---
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+## 📱 Running the App
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+### **iOS**
 
-```sh
-bundle install
+```bash
+cd ios
+pod install
+cd ..
+npx react-native run-ios
 ```
 
-Then, and every time you update your native dependencies, run:
+### **Android**
 
-```sh
-bundle exec pod install
+```bash
+npx react-native run-android
 ```
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+---
 
-```sh
-# Using npm
-npm run ios
+## ⚙️ Configuration
 
-# OR using Yarn
-yarn ios
+### **Segment**
+
+* Create a Segment **React Native source** in your Segment dashboard.
+* Copy the **Write Key** and replace it in `App.tsx`:
+
+```javascript
+const segmentWriteKey = 'YOUR_SEGMENT_WRITE_KEY';
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+### **CleverTap**
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+* In Segment dashboard:
 
-## Step 3: Modify your app
+  * Go to your **React Native source** → **Destinations**.
+  * Add **CleverTap** as a destination.
+  * Enter your CleverTap **Account ID**, **Passcode**, and select the correct **Region**.
 
-Now that you have successfully run the app, let's make changes!
+---
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+## ✅ Code Overview
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+### **Initialize Segment**
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+```javascript
+await analytics.setup(segmentWriteKey, {
+  trackAppLifecycleEvents: true,
+  recordScreenViews: true,
+});
+(analytics as any).use(CleverTapIntegration);
+```
 
-## Congratulations! :tada:
+### **Identify User**
 
-You've successfully run and modified your React Native App. :partying_face:
+```javascript
+analytics.identify(identity, {
+  name,
+  email,
+  phone,
+});
+```
 
-### Now what?
+### **Track Event**
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+```javascript
+analytics.track('Button Clicked');
+```
 
-# Troubleshooting
+### **Track Event with Properties**
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+```javascript
+analytics.track('Product Purchased', {
+  productName: 'T-Shirt',
+  price: 499,
+  currency: 'INR',
+});
+```
 
-# Learn More
+---
 
-To learn more about React Native, take a look at the following resources:
+## 🔍 Testing Integration
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+* **Segment Debugger**:
+
+  * Go to **Connections → Sources → Your React Native Source → Debugger**.
+  * Verify `Identify` and `Track` events are arriving.
+* **CleverTap Dashboard**:
+
+  * Go to **User Explorer** and search by `identity`.
+  * Check user profile and events.
+
+---
+
+## ⚠️ Important Notes
+
+* This project uses **Segment SDK v1 (v1.5.0)** because CleverTap currently **does not support v2**.
+* If you're on React Native 0.70+:
+
+  * Update Kotlin version in:
+
+    * `node_modules/@segment/analytics-react-native/android/build.gradle`
+    * `node_modules/@segment/analytics-react-native-clevertap/android/build.gradle`
+
+---
+* CleverTap Dashboard
+  and make the README more visual? Or keep it simple for now?
